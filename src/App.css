@@ -34,3 +34,6 @@ grid-template-columns: 1fr 1fr 1fr;
 .pagination__selected{
   background-color:rgb(220,220, 220); ;
 }
+.pagination__disabled{
+  opacity: 0;
+}
