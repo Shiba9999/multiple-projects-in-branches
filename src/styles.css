@@ -1,94 +1,82 @@
-/* Reset */
 * {
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Body styles */
-  body {
-    background-color: #f6f6ef;
-    color: #000;
-    font-family: sans-serif;
-    font-size: 16px;
-    padding: 16px;
-  }
-  
-  /* Link styles */
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
-  .inactiveLink {
-    pointer-events: none;
-    cursor: default;
-  }
-  
-  /* Custom App styles */
-  .custom-app {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .custom-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ff6600;
-    margin-bottom: 24px;
-  }
-  
-  .custom-items {
-    display: grid;
-    row-gap: 16px;
-  }
-  
-  .custom-post {
-    background-color: #fff;
-    border: 1px solid #dcdcdc;
-    border-radius: 4px;
-    padding: 16px;
-    display: grid;
-    row-gap: 8px;
-  }
-  
-  .custom-post__title {
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 0;
-  }
-  
-  .custom-post__metadata {
-    font-size: 14px;
-    color: #444;
-  }
-  
-  .custom-loading {
-    color: #4d4d4d;
-    font-weight: bold;
-    font-size: 18px;
-  }
-  
-  .custom-load-more-button {
-    background-color: #ff6600;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    margin-top: 20px;
-    padding: 8px 12px;
-  }
-  
-  .custom-load-more-button:not(:disabled) {
-    cursor: pointer;
-  }
-  
-  .custom-load-more-button:hover {
-    background-color: #e65c00;
-  }
-  
-  .loading {
-    opacity: 0.6;
-  }
+  font-family: Arial;
+}
+
+.container {
+  background-color: #24232b;
+  padding: 24px;
+}
+
+.header {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: 700;
+  padding-bottom: 20px;
+}
+
+button {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #2a8b8b;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.copyBtn {
+  height: 30px;
+  font-size: 10px;
+}
+
+.charlength {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  padding-bottom: 24px;
+}
+
+.charlength span {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 24px;
+}
+
+.checkboxes {
+  display: grid;
+  grid-template-columns: auto auto;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+.checkboxes div {
+  display: flex;
+  gap: 5px;
+  padding-bottom: 25px;
+}
+
+.generateBtn {
+  width: 100%;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.errorMessage {
+  color: red;
+  padding-bottom: 5px;
+}
+
+.password-strength {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  color: white;
+}

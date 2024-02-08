@@ -1,76 +1,82 @@
-
-
-import {useEffect, useState} from "react";
-import JobPosting from "./components/JobPosting";
+import React, { useState } from "react";
+import Checkbox from "./components/Checkbox";
+import Button from "./components/Button";
 import "./styles.css"
+import usePasswordGenerator from "./use-password-generator";
+import PasswordStrengthIndicator from "./components/StrengthChecker";
+const App = () => {
+  const [length, setLength] = useState(4);
+  const [checkboxData, setCheckboxData] = useState([
+    { title: "Include Uppercase Letters", state: false },
+    { title: "Include Lowercase Letters", state: false },
+    { title: "Include Numbers", state: false },
+    { title: "Include Symbols", state: false },
+  ]);
+  const [copied, setCopied] = useState(false);
 
-const ITEMS_PER_PAGE = 6;
-const API_ENDPOINT = "https://hacker-news.firebaseio.com/v0";
-
-export default function JobApp() {
-  const [items, setItems] = useState([]);
-  const [itemIds, setItemIds] = useState(null);
-  const [fetchingDetails, setFetchingDetails] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-
-  async function fetchItems(currPage) {
-    setCurrentPage(currPage);
-    setFetchingDetails(true);
-
-    let itemsList = itemIds;
-    if (itemsList === null) {
-      const response = await fetch(`${API_ENDPOINT}/jobstories.json`);
-      itemsList = await response.json();
-      setItemIds(itemsList);
-    }
-
-    const itemIdsForPage = itemsList.slice(
-      currentPage * ITEMS_PER_PAGE,
-      currentPage * ITEMS_PER_PAGE + ITEMS_PER_PAGE
-    );
-
-    const itemsForPage = await Promise.all(
-      itemIdsForPage.map((itemId) =>
-        fetch(`${API_ENDPOINT}/item/${itemId}.json`).then((response) =>
-          response.json()
-        )
-      )
-    );
-    setItems([...items, ...itemsForPage]);
-
-    setFetchingDetails(false);
+  function handleCheckboxChange(i){
+    const updatedCheckboxData = [...checkboxData];
+    updatedCheckboxData[i].state = !updatedCheckboxData[i].state;
+    setCheckboxData(updatedCheckboxData);
   }
+  const handleCopy = () => {
+    navigator.clipboard.writeText(password);
+    setCopied(true);
 
-  useEffect(() => {
-    if (currentPage === 0) fetchItems(currentPage);
-  }, [currentPage]);
-
-  console.log("itemIds", itemIds);
-
+    setTimeout(() => {
+      setCopied(false);
+    }, 1000);
+  };
+  const { password, errorMessage, generatePassword } = usePasswordGenerator();
   return (
-    <div className="custom-app">
-      <h1 className="custom-title">Hacker News Jobs Board</h1>
-      {itemIds === null || items.length < 1 ? (
-        <p className="custom-loading">Loading...</p>
-      ) : (
-        <div>
-          <div className="custom-items" role="list">
-            {items.map((item) => (
-              <JobPosting key={item.id} {...item} />
-            ))}
-          </div>
-          {items.length > 0 &&
-            currentPage * ITEMS_PER_PAGE + ITEMS_PER_PAGE < itemIds.length && (
-              <button
-                className={`custom-load-more-button`}
-                disabled={fetchingDetails}
-                onClick={() => fetchItems(currentPage + 1)}
-              >
-                {fetchingDetails ? "loading..." : "Load more jobs"}
-              </button>
-            )}
+    <div className="container">
+      {/* password and copy */}
+      {password && (
+        <div className="header">
+          <div className="title">{password}</div>
+          <Button
+            text={copied ? "Copied" : "copy"}
+            onClick={handleCopy}
+            customClass="copyBtn"
+          />
         </div>
       )}
+      <div className="charlength">
+        <span>
+          <label>Character Length</label>
+          <label>{length}</label>
+        </span>
+        <input
+          type="range"
+          min="4"
+          max="20"
+          value={length}
+          onChange={(e) => setLength(e.target.value)}
+        />
+      </div>
+
+      {/* checkbox */}
+      <div className="checkboxes">
+        {checkboxData.map((checkbox, index) => {
+          return (
+            <Checkbox
+              key={index}
+              title={checkbox.title}
+              onChange={() => handleCheckboxChange(index)}
+              state={checkbox.state}
+            />
+          );
+        })}
+      </div>
+      <PasswordStrengthIndicator password={password} />
+      {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+      <Button
+        text="Generate Password"
+        onClick={() => generatePassword(checkboxData, length)}
+        customClass="generateBtn"
+      />
     </div>
   );
-}
+};
+
+export default App;
